@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Sample New Relic AI Notifications Channel Template
+Resources:
+  Channel1:
+    Type: 'NewRelic::Observability::AINotificationsChannel'
+    Properties:
+      Fragment: >-
+        channel: {
+        destinationId: "5f695789-e662-4469-b052-4f5851cdd7ee", 
+        name: "CloudFormation Test Channel", 
+        product: IINT, 
+        properties: {key: "", value: "", displayValue: "CloudFormation Test Channel", label: ""}, 
+        type: EMAIL}}
+Outputs:
+  Channel1Guid:
+    Value: !GetAtt  Channel1.Guid

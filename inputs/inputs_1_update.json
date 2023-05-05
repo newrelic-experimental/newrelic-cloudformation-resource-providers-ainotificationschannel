@@ -1,0 +1,3 @@
+{
+  "Channel": "channel: { name: \"CloudFormation Test Channel\", properties: {key: \"PropertyKey\", value: \"Updated PropertyValue\", displayValue: \"CloudFormation Test Channel\", label: \"\"}}"
+}
