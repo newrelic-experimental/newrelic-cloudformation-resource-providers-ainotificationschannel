@@ -22,6 +22,7 @@ inputs-mock/
 scratch/
 tmp/
 .hypothesis/
+*.zip
 
 # Jetbrains
 .idea/

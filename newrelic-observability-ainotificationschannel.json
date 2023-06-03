@@ -1,7 +1,7 @@
 {
   "typeName": "NewRelic::Observability::AINotificationsChannel",
   "description": "CRUD operations for New Relic AI Notifications Channels via the NerdGraph API",
-  "sourceUrl": "https://github.com/newrelic-experimental/newrelic-cloudformation-resource-providers-ainotificationschannel.git",
+  "sourceUrl": "https://github.com/newrelic/newrelic-cloudformation-resource-providers-ainotificationschannel.git",
   "tagging": {
     "taggable": false
   },
@@ -9,7 +9,7 @@
     "Channel": {
       "type": "string"
     },
-    "Guid": {
+    "Id": {
       "type": "string"
     },
     "ListQueryFilter": {
@@ -29,14 +29,14 @@
     }
   },
   "required": [
-    "/properties/Channel"
+    "Channel"
   ],
   "additionalProperties": false,
   "primaryIdentifier": [
-    "/properties/Guid"
+    "/properties/Id"
   ],
   "readOnlyProperties": [
-    "/properties/Guid"
+    "/properties/Id"
   ],
   "handlers": {
     "create": {

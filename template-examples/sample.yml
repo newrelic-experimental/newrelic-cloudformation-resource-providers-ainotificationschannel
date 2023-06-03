@@ -1,16 +1,26 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Sample New Relic AI Notifications Channel Template
 Resources:
-  Channel1:
+  # Make a Destination on the fly so we don't run into the destinationId uniqueness rule
+  aiNotificationsDestinationResource:
+    Type: 'NewRelic::Observability::AINotificationsDestination'
+    Properties:
+      Destination: >-
+        destination: {name: "Notification email test", properties: {key: "email", value: "someone@mail.com"}, type: EMAIL}
+
+  aiNotificationsChannelResource:
     Type: 'NewRelic::Observability::AINotificationsChannel'
     Properties:
-      Fragment: >-
+      Channel: >-
         channel: {
-        destinationId: "5f695789-e662-4469-b052-4f5851cdd7ee", 
+        destinationId: "{{{DestinationId}}}", 
         name: "CloudFormation Test Channel", 
         product: IINT, 
         properties: {key: "", value: "", displayValue: "CloudFormation Test Channel", label: ""}, 
-        type: EMAIL}}
+        type: EMAIL}
+      Variables:
+        DestinationId: !Ref aiNotificationsDestinationResource
+
 Outputs:
   Channel1Guid:
-    Value: !GetAtt  Channel1.Guid
+    Value: !GetAtt  aiNotificationsChannelResource.Id

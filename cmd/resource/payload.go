@@ -2,7 +2,7 @@ package resource
 
 import (
    "fmt"
-   "github.com/newrelic-experimental/newrelic-cloudformation-resource-providers-common/model"
+   model "github.com/newrelic/newrelic-cloudformation-resource-providers-common/model"
    log "github.com/sirupsen/logrus"
 )
 
@@ -13,6 +13,29 @@ import (
 type Payload struct {
    model  *Model
    models []interface{}
+}
+
+func (p *Payload) SetIdentifier(g *string) {
+   p.model.Id = g
+}
+
+func (p *Payload) GetIdentifier() *string {
+   return p.model.Id
+}
+
+func (p *Payload) GetIdentifierKey(a model.Action) string {
+   switch a {
+   case model.Delete:
+      return "ids"
+   default:
+      return "id"
+   }
+}
+
+var emptyString = ""
+
+func (p *Payload) GetTagIdentifier() *string {
+   return &emptyString
 }
 
 func NewPayload(m *Model) *Payload {
@@ -53,24 +76,11 @@ var typeName = "NewRelic::Observability::AINotificationsChannel"
 
 func (p *Payload) NewModelFromGuid(g interface{}) (m model.Model) {
    s := fmt.Sprintf("%s", g)
-   return NewPayload(&Model{Guid: &s})
+   return NewPayload(&Model{Id: &s})
 }
 
 func (p *Payload) GetGraphQLFragment() *string {
    return p.model.Channel
-}
-
-func (p *Payload) SetGuid(g *string) {
-   p.model.Guid = g
-   log.Debugf("SetGuid: %s", *p.model.Guid)
-}
-
-func (p *Payload) GetGuid() *string {
-   return p.model.Guid
-}
-
-func (p *Payload) GetGuidKey() string {
-   return "id"
 }
 
 func (p *Payload) GetVariables() map[string]string {
@@ -81,8 +91,8 @@ func (p *Payload) GetVariables() map[string]string {
       }
    }
 
-   if p.model.Guid != nil {
-      vars["GUID"] = *p.model.Guid
+   if p.model.Id != nil {
+      vars["ID"] = *p.model.Id
    }
 
    if p.model.Channel != nil {
@@ -102,17 +112,6 @@ func (p *Payload) GetErrorKey() string {
    return "type"
 }
 
-func (p *Payload) GetResultKey(a model.Action) string {
-   switch a {
-   case model.Delete:
-      return "ids"
-   }
-   return p.GetGuidKey()
-}
-
-func (p *Payload) NeedsPropagationDelay(a model.Action) bool {
-   return true
-}
 func (p *Payload) GetCreateMutation() string {
    return `
 mutation {
@@ -153,7 +152,7 @@ mutation {
 func (p *Payload) GetDeleteMutation() string {
    return `
 mutation {
-    aiNotificationsDeleteChannel(accountId: {{{ACCOUNTID}}}, channelId: "{{{GUID}}}") {
+    aiNotificationsDeleteChannel(accountId: {{{ACCOUNTID}}}, channelId: "{{{ID}}}") {
         error {
             description
             details
@@ -168,7 +167,7 @@ mutation {
 func (p *Payload) GetUpdateMutation() string {
    return `
 mutation {
-    aiNotificationsUpdateChannel(accountId: {{{ACCOUNTID}}},  {{{FRAGMENT}}} , channelId: "{{{GUID}}}") {
+    aiNotificationsUpdateChannel(accountId: {{{ACCOUNTID}}},  {{{FRAGMENT}}} , channelId: "{{{ID}}}") {
         error {
             ... on AiNotificationsConstraintsError {
                 constraints {
@@ -208,7 +207,7 @@ func (p *Payload) GetReadQuery() string {
     actor {
         account(id: {{{ACCOUNTID}}}) {
             aiNotifications {
-                channels(filters: {id: "{{{GUID}}}"}) {
+                channels(filters: {id: "{{{ID}}}"}) {
                     entities {
                         id
                         type

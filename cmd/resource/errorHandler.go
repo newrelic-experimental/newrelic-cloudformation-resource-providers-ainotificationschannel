@@ -2,9 +2,9 @@ package resource
 
 import (
    "fmt"
-   "github.com/newrelic-experimental/newrelic-cloudformation-resource-providers-common/cferror"
-   "github.com/newrelic-experimental/newrelic-cloudformation-resource-providers-common/client/nerdgraph"
-   "github.com/newrelic-experimental/newrelic-cloudformation-resource-providers-common/model"
+   "github.com/newrelic/newrelic-cloudformation-resource-providers-common/cferror"
+   "github.com/newrelic/newrelic-cloudformation-resource-providers-common/client/nerdgraph"
+   "github.com/newrelic/newrelic-cloudformation-resource-providers-common/model"
    log "github.com/sirupsen/logrus"
    "strings"
 )
