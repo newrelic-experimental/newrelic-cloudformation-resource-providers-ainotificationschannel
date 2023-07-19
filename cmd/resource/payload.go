@@ -38,6 +38,10 @@ func (p *Payload) GetTagIdentifier() *string {
    return &emptyString
 }
 
+func (p *Payload) GetTypeName() string {
+   return typeName
+}
+
 func NewPayload(m *Model) *Payload {
    return &Payload{
       model:  m,
