@@ -4,6 +4,7 @@
 
 # Logs
 rpdk.log*
+*.log
 
 # Compiled file
 bin/

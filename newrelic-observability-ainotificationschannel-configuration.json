@@ -1,0 +1,25 @@
+{
+    "properties": {
+        "Endpoint": {
+            "type": "string",
+            "default": "https://api.newrelic.com/graphql"
+        },
+        "APIKey": {
+            "type": "string"
+        },
+        "AccountID": {
+            "type": "string"
+        },
+        "LogLevel": {
+            "type": "string",
+            "default": "info"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "APIKey",
+        "AccountID"
+    ],
+    "definitions": {},
+    "typeName": "NewRelic::Observability::AINotificationsChannel"
+}
